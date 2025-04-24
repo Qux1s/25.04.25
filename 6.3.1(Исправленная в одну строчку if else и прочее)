@@ -1,0 +1,125 @@
+#include <iostream>
+#include <string>
+#include <array>
+#include <limits>
+
+enum class InputPosition {
+    first_number,
+    second_number,
+    COUNT          
+};
+
+constexpr std::array<std::string_view, static_cast<size_t>(InputPosition::COUNT)> inputPosition{ 
+    "first",																			 
+    "second"
+};
+
+void printResult();
+int userPrintInteger(InputPosition numberPosition);
+void ignoreLine();
+void inputError();
+std::string_view printPositionNumber(InputPosition position);
+void printCorrectValue(int first, int second);
+void valueEquals();
+
+int main()
+{
+    printResult();
+}
+
+int userPrintInteger(InputPosition numberPosition)
+{
+
+    while (true)
+    {
+        std::cout << "Enter a " << printPositionNumber(numberPosition) << " value : ";
+
+        int userInteger{};
+
+        std::cin >> userInteger;
+
+
+        if (std::cin.fail())
+        {
+            inputError();
+
+            continue;
+        }
+
+        return userInteger;
+    }
+}
+
+void printResult()
+{
+
+    //std::cout << "Enter a smaller integer: ";
+
+    int smallerIntenger{ userPrintInteger(InputPosition::first_number), };
+
+    //std::cout << "Enter a larger integer: ";
+
+    int largerIntenger{ userPrintInteger(InputPosition::second_number) };
+
+    //if (smallerIntenger > largerIntenger)
+    //{
+    //    int temp{ smallerIntenger };
+
+    //    //temp = ;
+
+    //    smallerIntenger = largerIntenger;
+
+    //    largerIntenger = temp;
+
+    //    //    std::cout << "The smaller value is " << smallerIntenger << '\n';
+
+    //    //    std::cout << "The larger value is " << largerIntenger << '\n';
+
+    //}
+    //else
+    //{
+    //    //    std::cout << "The smaller value is " << smallerIntenger << '\n';
+
+    //    //    std::cout << "The larger value is " << largerIntenger << '\n';
+    //}
+
+    //std::cout << "The smaller value is " << smallerIntenger << '\n';
+
+    //std::cout << "The larger value is " << largerIntenger << '\n';
+
+    (largerIntenger > smallerIntenger) ? printCorrectValue(largerIntenger, smallerIntenger) : (largerIntenger < smallerIntenger) ? printCorrectValue(smallerIntenger, largerIntenger) : valueEquals();
+
+}
+
+void ignoreLine()
+{
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+}
+
+void inputError()
+{
+    std::cin.clear();
+
+    ignoreLine();
+
+    std::cout << "Oops, that input is invalid.  Please try again.\n";
+}
+
+std::string_view printPositionNumber(InputPosition position)
+{
+    return inputPosition[static_cast<size_t>(position)];
+}
+
+void printCorrectValue(int first, int second)
+{
+
+    std::cout << "The larger value is " << first << '\n';
+
+    std::cout << "The smaller value is " << second << '\n';
+
+}
+
+void valueEquals()
+{
+    std::cout << "The entered value are equals. " << '\n';
+}
